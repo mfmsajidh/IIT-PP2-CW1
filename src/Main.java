@@ -1,6 +1,43 @@
 import java.util.Scanner;
 
 public class Main {
+
+    private static boolean getMagicValue(String[] squareNumbers) {
+
+        int magicValue;
+        int[] magicValueRow = new int[3];
+        boolean magicValueCheck;
+
+        for (int i=0, row=0; i<squareNumbers.length;) {
+            magicValue=0;
+            for (int j=0; j<3; j++) {
+                magicValue += Integer.parseInt(squareNumbers[i]);
+                magicValueRow[row] = magicValue;
+                i++;
+            }
+            row++;
+        }
+
+        if (magicValueRow[0] == magicValueRow[1]) {
+            magicValue = magicValueRow[0];
+            if (magicValue == magicValueRow[2]) {
+                magicValueCheck = true;
+            }
+            else {
+                magicValueCheck = false;
+            }
+        } else {
+            magicValueCheck = false;
+        }
+
+        return magicValueCheck;
+
+    }
+
+    private static void checkMagicRows(int magicValue, String[] squareNumbers) {
+        
+    }
+
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
@@ -38,6 +75,13 @@ public class Main {
             }
             System.out.println();
         }
+
+//        int magicValue = getMagicValue(squareNumbers);
+//        System.out.println(magicValue);
+//        checkMagicRows(magicValue, squareNumbers);
+
+        System.out.println("\n" + "Is Magic Square: "+ getMagicValue(squareNumbers));
+        System.out.println("Is Lo Shu Square: ");
 
         System.out.println();
         System.out.println("Thank you for playing the game!");
