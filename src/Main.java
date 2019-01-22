@@ -22,7 +22,7 @@ public class Main {
 
                 }
                 catch(NumberFormatException ex){
-                    System.out.println("Sorry, I can't accept that. \n" + "It's not a valid number!!! \n" );
+                    System.out.println("Sorry, I can't accept that. \n" + "It's not a valid number!!! \n");
                     notValid = true;
                 }
             } while (notValid);
