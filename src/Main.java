@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 @SuppressWarnings("Duplicates")
@@ -186,20 +187,26 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Do you wish to enter a new square? (y/n): ");
-        char reply = scanner.next(".").charAt(0);
-        reply = Character.toLowerCase(reply);
 
-        System.out.println(reply);
+        try {
+            char reply = scanner.next(".").charAt(0);
+            reply = Character.toLowerCase(reply);
 
-        if(reply=='y'){
-            repeat = true;
+            System.out.println(reply);
+
+//            if(reply=='y'){
+//                repeat = true;
+//            }
+//            else if (reply=='n'){
+//                System.out.println("\n" + "Thank you for playing the game!");
+//            }
+//            else {
+//                System.out.println("Invalid Input. Please try again.");
+//            }
         }
-        else if (reply=='n'){
-            System.out.println("\n" + "Thank you for playing the game!");
-            repeat = false;
-        }
-        else {
+        catch(Exception e){
             System.out.println("Invalid Input. Please try again.");
+
         }
 
         return repeat;
