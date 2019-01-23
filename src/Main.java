@@ -130,7 +130,7 @@ public class Main {
         boolean isValid;
 
         if(valueRow!=null && valueColumn!=null & valueDiagonal!=null){
-            if((valueRow == valueColumn) && (valueColumn == valueDiagonal)){
+            if((valueRow.equals(valueColumn)) && (valueColumn.equals(valueDiagonal))){
                 System.out.println("YEAH!!!! It is a Magic Square");
                 isValid = true;
             }
@@ -144,6 +144,28 @@ public class Main {
             isValid = false;
         }
         return isValid;
+    }
+
+    private static void loShuSquare(String[][] squareNumbers, boolean isValid){
+        int count=0;
+
+        System.out.println(isValid);
+        if(isValid){
+            for(int i=0; i<3; i++){
+                for(int j=0; j<3; j++){
+                    int squareNumber = Integer.parseInt(squareNumbers[i][j]);
+                    if(!(squareNumber>0 && squareNumber<10)){
+                        count++;
+                    }
+                }
+            }
+            if(count>0){
+                System.out.println("Oops!!!! Not a Lo Shu Square");
+            }
+        }
+        else{
+            System.out.println("Oops!!!! Not a Lo Shu Square");
+        }
     }
 
     public static void main(String[] args) {
@@ -169,17 +191,8 @@ public class Main {
         //Calls the magicSquare Method
         boolean isValid = magicSquare(valueRow, valueColumn, valueDiagonal);
 
-
-
-
-
-
-//        int magicValue = checkRows(squareNumbers);
-//        System.out.println(magicValue);
-//        checkMagicRows(magicValue, squareNumbers);
-
-//        System.out.println("\n" + "Is Magic Square: "+ checkRows(squareNumbers));
-//        System.out.println("Is Lo Shu Square: ");
+        //Calls the loShuSquare Method
+        loShuSquare(squareNumbers, isValid);
 
         System.out.println("\n" + "Thank you for playing the game!");
 
