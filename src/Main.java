@@ -147,19 +147,32 @@ public class Main {
     }
 
     private static void loShuSquare(String[][] squareNumbers, boolean isValid){
-        int count=0;
 
-        System.out.println(isValid);
+        int[] squareValues = new int[9];
+        int countRange = 0;
+        int countDuplicate = 0;
+
         if(isValid){
-            for(int i=0; i<3; i++){
-                for(int j=0; j<3; j++){
-                    int squareNumber = Integer.parseInt(squareNumbers[i][j]);
-                    if(!(squareNumber>0 && squareNumber<10)){
-                        count++;
+
+                int squareValue = 0;
+                for(int i=0; i<3; i++){
+                    for(int j=0; j<3; j++){
+                        squareValue = Integer.parseInt(squareNumbers[i][j]);
+                        if(!(squareValue>0 && squareValue<10)){
+                            countRange++;
+                        }
                     }
                 }
-            }
-            if(count>0){
+//                squareValues[x] = squareValue;
+
+//            for (int i=0; i<10; i++){
+//                for (int j=i+1; j<=squareValues.length; j++){
+//                    if(squareValues[i] == squareValues[j]){
+//                        countDuplicate++;
+//                    }
+//                }
+//            }
+            if(countRange>0 || countDuplicate>0){
                 System.out.println("Oops!!!! Not a Lo Shu Square");
             }
         }
@@ -168,33 +181,60 @@ public class Main {
         }
     }
 
+    private static boolean repeatAgain(boolean repeat){
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Do you wish to enter a new square? (y/n): ");
+        char reply = scanner.next(".").charAt(0);
+        reply = Character.toLowerCase(reply);
+
+        System.out.println(reply);
+
+        if(reply=='y'){
+            repeat = true;
+        }
+        else if (reply=='n'){
+            System.out.println("\n" + "Thank you for playing the game!");
+            repeat = false;
+        }
+        else {
+            System.out.println("Invalid Input. Please try again.");
+        }
+
+        return repeat;
+    }
+
     public static void main(String[] args) {
 
-        //Calls the getValues method and returns the multidimensional array
-        String[][] squareNumbers = getValues();
+        boolean repeat=false;
 
-        //Calls the displaySquare method
-        displaySquare(squareNumbers);
+        do {
+            //Calls the getValues method and returns the multidimensional array
+            String[][] squareNumbers = getValues();
 
-        //Calls the checkRows method
-        Integer valueRow = checkRows(squareNumbers);
-        System.out.println(checkRows(squareNumbers));
+            //Calls the displaySquare method
+            displaySquare(squareNumbers);
 
-        //Calls the checkColumns method
-        Integer valueColumn = checkColumns(squareNumbers);
-        System.out.println(checkColumns(squareNumbers));
+            //Calls the checkRows method
+            Integer valueRow = checkRows(squareNumbers);
 
-        //Calls the checkDiagonals method
-        Integer valueDiagonal = checkDiagonals(squareNumbers);
-        System.out.println(checkDiagonals(squareNumbers));
+            //Calls the checkColumns method
+            Integer valueColumn = checkColumns(squareNumbers);
 
-        //Calls the magicSquare Method
-        boolean isValid = magicSquare(valueRow, valueColumn, valueDiagonal);
+            //Calls the checkDiagonals method
+            Integer valueDiagonal = checkDiagonals(squareNumbers);
 
-        //Calls the loShuSquare Method
-        loShuSquare(squareNumbers, isValid);
+            //Calls the magicSquare method
+            boolean isValid = magicSquare(valueRow, valueColumn, valueDiagonal);
 
-        System.out.println("\n" + "Thank you for playing the game!");
+            //Calls the loShuSquare method
+            loShuSquare(squareNumbers, isValid);
+
+            //Calls the repeatAgain method
+            repeat = repeatAgain(repeat);
+
+        } while (repeat);
 
     }
 }
