@@ -1,5 +1,6 @@
 import java.util.Scanner;
 
+@SuppressWarnings("Duplicates")
 public class Main {
 
     private static String[][] getValues() {
@@ -25,6 +26,7 @@ public class Main {
                         count++;
 
                     }
+                    //NumberFormatException occurs while converting a String to a numeric value
                     catch(NumberFormatException ex){
                         System.out.println("Sorry, I can't accept that." + "\n" + "It's not a valid number!!!" + "\n");
                         notValid = true;
@@ -47,10 +49,9 @@ public class Main {
         }
     }
 
-    private static boolean checkRows(String[][] squareNumbers) {
-        int valueRow;
+    private static Integer checkRows(String[][] squareNumbers) {
+        Integer valueRow;
         int[] valueRows = new int[3];
-        boolean valueCheckRow;
 
         for (int i=0; i<3; i++) {
             int value=0;
@@ -61,23 +62,21 @@ public class Main {
         }
 
         if(valueRows[0] == valueRows[1]) {
-            valueRow = valueRows[0];
-            if (valueRow == valueRows[2]) {
-                return valueCheckRow = true;
+            if (valueRows[1] == valueRows[2]) {
+                valueRow = valueRows[2];
             }
             else {
-                return valueCheckRow = false;
+                valueRow = null;
             }
         }
         else {
-            return valueCheckRow = false;
+            valueRow = null;
         }
-
+        return valueRow;
     }
 
-    private static boolean checkColumns (String[][] squareNumbers) {
-        int valueColumn;
-        boolean valueCheckColumn;
+    private static Integer checkColumns (String[][] squareNumbers) {
+        Integer valueColumn;
         int[] valueColumns = new int[3];
 
         for(int i=0; i<3; i++) {
@@ -89,25 +88,62 @@ public class Main {
         }
 
         if(valueColumns[0] == valueColumns[1]) {
-            valueColumn = valueColumns[0];
-            if(valueColumn == valueColumns[2]){
-                return valueCheckColumn = true;
+            if(valueColumns[1] == valueColumns[2]){
+                valueColumn = valueColumns[2];
             }
             else {
-                return valueCheckColumn = false;
+                valueColumn = null;
             }
         }
         else {
-            return valueCheckColumn = false;
+            valueColumn = null;
         }
-
+        return valueColumn;
     }
 
-    private static boolean checkDiagonals (String[][] squareNumbers) {
+    private static Integer checkDiagonals (String[][] squareNumbers) {
 
-        int valueDiagonal;
-        boolean valueCheckDiagonal;
-        int[] valueDiagonals = new int[2];
+        Integer valueDiagonal;
+        int valueDiagonalFirst = 0;
+        int valueDiagonalSecond = 0;
+
+        for(int i=0; i<3; i++) {
+            valueDiagonalFirst += Integer.parseInt(squareNumbers[i][i]);
+        }
+
+        for (int i=0, j=2; (i<3 && j>=0) ; i++, j--){
+            valueDiagonalSecond += Integer.parseInt(squareNumbers[i][j]);
+        }
+
+        if(valueDiagonalFirst == valueDiagonalSecond){
+            valueDiagonal = valueDiagonalFirst;
+        }
+        else {
+            valueDiagonal = null;
+        }
+
+        return valueDiagonal;
+    }
+
+    private static boolean magicSquare(Integer valueRow, Integer valueColumn, Integer valueDiagonal) {
+
+        boolean isValid;
+
+        if(valueRow!=null && valueColumn!=null & valueDiagonal!=null){
+            if((valueRow == valueColumn) && (valueColumn == valueDiagonal)){
+                System.out.println("YEAH!!!! It is a Magic Square");
+                isValid = true;
+            }
+            else {
+                System.out.println("Oops!!!! Not a Magic Square");
+                isValid = false;
+            }
+        }
+        else {
+            System.out.println("Oops!!!! Not a Magic Square");
+            isValid = false;
+        }
+        return isValid;
     }
 
     public static void main(String[] args) {
@@ -119,14 +155,22 @@ public class Main {
         displaySquare(squareNumbers);
 
         //Calls the checkRows method
-        boolean valueCheckRow = checkRows(squareNumbers);
+        Integer valueRow = checkRows(squareNumbers);
+        System.out.println(checkRows(squareNumbers));
 
         //Calls the checkColumns method
-        boolean valueCheckColumn = checkColumns(squareNumbers);
+        Integer valueColumn = checkColumns(squareNumbers);
+        System.out.println(checkColumns(squareNumbers));
 
         //Calls the checkDiagonals method
-        boolean valueCheckDiagonal = checkDiagonals(squareNumbers);
-        
+        Integer valueDiagonal = checkDiagonals(squareNumbers);
+        System.out.println(checkDiagonals(squareNumbers));
+
+        //Calls the magicSquare Method
+        boolean isValid = magicSquare(valueRow, valueColumn, valueDiagonal);
+
+
+
 
 
 
