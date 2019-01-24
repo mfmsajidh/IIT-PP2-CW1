@@ -40,26 +40,4 @@ public class Main {
         } while (repeat); //Repeats until user enters (n) or (N) from the repeatAgain method
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
