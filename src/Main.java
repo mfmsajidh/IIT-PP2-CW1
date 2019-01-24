@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -186,35 +187,34 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Do you wish to enter a new square? (y/n): ");
+        boolean isNotValid = true;
 
-        try {
-            char reply = scanner.next(".").charAt(0);
-            reply = Character.toLowerCase(reply);
+        while(isNotValid){
+            System.out.print("Do you wish to enter a new square? (y/n): ");
 
-            System.out.println(reply);
+            String reply = scanner.nextLine();
 
-//            if(reply=='y'){
-//                repeat = true;
-//            }
-//            else if (reply=='n'){
-//                System.out.println("\n" + "Thank you for playing the game!");
-//            }
-//            else {
-//                System.out.println("Invalid Input. Please try again.");
-//            }
-        }
-        catch(Exception e){
-            System.out.println("Invalid Input. Please try again.");
-
+            if(reply.equals("y") || reply.equals("Y")) {
+                repeat = true;
+                isNotValid = false;
+            }
+            else if (reply.equals("n") || reply.equals("N")) {
+                System.out.println("Thank you for playing the game");
+                repeat = false;
+                isNotValid = false;
+            }
+            else {
+                System.out.println("Sorry, I can't accept that." + "\n" + "It's not a valid input!!!" + "\n");
+            }
         }
 
         return repeat;
+
     }
 
     public static void main(String[] args) {
 
-        boolean repeat=false;
+        boolean repeat = false;
 
         do {
             //Calls the getValues method and returns the multidimensional array
