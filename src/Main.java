@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 @SuppressWarnings("Duplicates")
@@ -47,6 +48,8 @@ public class Main {
             }
             System.out.println();
         }
+
+        System.out.println();
     }
 
     private static Integer checkRows(String[][] squareNumbers) {
@@ -146,63 +149,64 @@ public class Main {
         return isValid;
     }
 
-    private static void checkRange(String[][] squareNumbers) {
-        int[] squareValues = new int[9];
-        int countRange = 0;
+    private static String[] singleArray(String[][] squareNumbers){
+        String[] singleSquareNumbers = new String[9];
 
-
-    }
-
-    private static void checkDuplicates(String[][] squareNumbers) {
-        int[] squareValues = new int[9];
-        int countDuplicate = 0;
-    }
-
-    private static void loShuSquare(String[][] squareNumbers, boolean isValid){
-
-        int[] squareValues = new int[9];
-        int countRange = 0;
-        int countDuplicate = 0;
-
-        if(isValid){
-
-            for(int x=0; x<9; x++) {
-                int squareValue = 0;
-                for (int i = 0; i < 3; i++) {
-                    for (int j = 0; j < 3; j++) {
-                        squareValue = Integer.parseInt(squareNumbers[i][j]);
-                        if (!(squareValue > 0 && squareValue < 10)) {
-                            countRange++;
-                        }
-                    }
-                }
-                squareValues[x] = squareValue;
-            }
-
-            for (int i=0; i<squareValues.length; i++){
-                for (int j=i+1; j<squareValues.length; j++){
-                    if(squareValues[i] == squareValues[j]){
-                        countDuplicate++;
-                    }
+        for(int x=0; x<9;) {
+            for (int i=0; i<squareNumbers.length; i++){
+                for(int j=0; j<squareNumbers.length; j++) {
+                    singleSquareNumbers[x] = squareNumbers[i][j];
+                    x++;
                 }
             }
+        }
+        return singleSquareNumbers;
+    }
 
-            if(countRange>0 || countDuplicate>0){
-                System.out.println("Oops!!!! Not a Lo Shu Square");
-                System.out.println("countRange: " + countRange);
-                System.out.println("countDuplicate: " + countDuplicate);
+    private static boolean checkRange(String[] singleSquareNumbers) {
+        int countRange = 0;
+
+        for(int i=0; i<singleSquareNumbers.length; i++) {
+            if(!((Integer.parseInt(singleSquareNumbers[i])>0) && (Integer.parseInt(singleSquareNumbers[i])<10))){
+                countRange++;
             }
+        }
 
+        if(countRange>0){
+            return false;
         }
         else{
-            System.out.println("Oops!!!! Not a Lo Shu Square");
-            System.out.println("countRange: " + countRange);
-            System.out.println("countDuplicate: " + countDuplicate);
+            return true;
+        }
+    }
+
+    private static boolean checkDuplicates(String[] singleSquareNumbers) {
+        int countDuplicate = 0;
+
+        for (int i=0; i<singleSquareNumbers.length; i++) {
+            for (int j=i+1; j<singleSquareNumbers.length; j++) {
+                if(singleSquareNumbers[i].equals(singleSquareNumbers[j])) {
+                    countDuplicate++;
+                }
+            }
         }
 
-        for(int i: squareValues){
-            System.out.println(i);
+        if(countDuplicate>0){
+            return false;
         }
+        else{
+            return true;
+        }
+    }
+
+    private static void loShuSquare(boolean isValid, boolean inRange, boolean noDuplicates){
+        if(isValid && inRange && noDuplicates){
+            System.out.println("YEAH!!!! It is a Lo Shu Square also");
+        }
+        else {
+            System.out.println("Oops!!!! Not a Lo Shu Square");
+        }
+
     }
 
     private static boolean repeatAgain(boolean repeat){
@@ -212,7 +216,7 @@ public class Main {
         boolean isNotValid = true;
 
         while(isNotValid){
-            System.out.print("Do you wish to enter a new square? (y/n): ");
+            System.out.print("\n" + "Do you wish to enter a new square? (y/n): ");
 
             String reply = scanner.nextLine();
 
@@ -222,11 +226,12 @@ public class Main {
             }
             else if (reply.equals("n") || reply.equals("N")) {
                 System.out.println("Thank you for playing the game");
+                System.out.println("See you again !!!");
                 repeat = false;
                 isNotValid = false;
             }
             else {
-                System.out.println("Sorry, I can't accept that." + "\n" + "It's not a valid input!!!" + "\n");
+                System.out.println("Sorry, I can't accept that." + "\n" + "It's not a valid input!!!");
             }
         }
 
@@ -257,14 +262,17 @@ public class Main {
             //Calls the magicSquare method
             boolean isValid = magicSquare(valueRow, valueColumn, valueDiagonal);
 
+            //Calls the singleArray method to convert the Multi Dimensional Array
+            String[] singleSquareNumbers = singleArray(squareNumbers);
+
             //Calls the checkRange method
-            boolean isRange = checkRange(squareNumbers);
+            boolean inRange = checkRange(singleSquareNumbers);
 
             //Calls the checkDuplicates method
-            boolean noDuplicate = checkDuplicates(squareNumbers);
+            boolean noDuplicates = checkDuplicates(singleSquareNumbers);
 
             //Calls the loShuSquare method
-            loShuSquare(squareNumbers, isValid);
+            loShuSquare(isValid, inRange, noDuplicates);
 
             //Calls the repeatAgain method
             repeat = repeatAgain(repeat);
