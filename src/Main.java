@@ -1,8 +1,47 @@
-import java.util.Arrays;
 import java.util.Scanner;
 
 @SuppressWarnings("Duplicates")
 public class Main {
+
+    public static void main(String[] args) {
+        boolean repeat = false; //Variable to initiate the while loop for the repeatAgain method
+
+        do {
+            //Calls the getValues method and returns the multidimensional array
+            String[][] squareNumbers = getValues();
+
+            //Displays the input values in a square
+            displaySquare(squareNumbers);
+
+            //Calls the checkRows method
+            Integer valueRow = checkRows(squareNumbers);
+
+            //Calls the checkColumns method
+            Integer valueColumn = checkColumns(squareNumbers);
+
+            //Calls the checkDiagonals method
+            Integer valueDiagonal = checkDiagonals(squareNumbers);
+
+            //Calls the magicSquare method
+            boolean isValid = magicSquare(valueRow, valueColumn, valueDiagonal);
+
+            //Calls the singleArray method to convert the Multi Dimensional Array
+            String[] singleSquareNumbers = singleArray(squareNumbers);
+
+            //Calls the checkRange method
+            boolean inRange = checkRange(singleSquareNumbers);
+
+            //Calls the checkDuplicates method
+            boolean noDuplicates = checkDuplicates(singleSquareNumbers);
+
+            //Calls the loShuSquare method
+            loShuSquare(isValid, inRange, noDuplicates);
+
+            //Calls the repeatAgain method
+            repeat = repeatAgain(repeat);
+
+        } while (repeat); //Repeats until user enters (n) or (N) from the repeatAgain method
+    }
 
     private static String[][] getValues() {
         Scanner scanner = new Scanner(System.in); //Imports the Scanner utility as scanner
@@ -54,8 +93,9 @@ public class Main {
 
     private static Integer checkRows(String[][] squareNumbers) {
         Integer valueRow;
-        int[] valueRows = new int[3];
+        int[] valueRows = new int[3]; //Array to assign the value of each row
 
+        //Iterates through each row value of squareNumbers[][] and assigns the total to the valueRows[]
         for (int i=0; i<3; i++) {
             int value=0;
             for (int j=0; j<3; j++) {
@@ -64,6 +104,7 @@ public class Main {
             valueRows[i] = value;
         }
 
+        //Checks if the row values are equal
         if(valueRows[0] == valueRows[1]) {
             if (valueRows[1] == valueRows[2]) {
                 valueRow = valueRows[2];
@@ -75,13 +116,14 @@ public class Main {
         else {
             valueRow = null;
         }
-        return valueRow;
+        return valueRow; //Returns null if not equal, returns the value if equal
     }
 
     private static Integer checkColumns (String[][] squareNumbers) {
         Integer valueColumn;
-        int[] valueColumns = new int[3];
+        int[] valueColumns = new int[3]; //Array to assign the value of each column
 
+        //Iterates through each column value of squareNumbers[][] and assigns the total to the valueColumns[]
         for(int i=0; i<3; i++) {
             int value=0;
             for(int j=0; j<3; j++) {
@@ -90,6 +132,7 @@ public class Main {
             valueColumns[i] = value;
         }
 
+        //Checks if the column values are equal
         if(valueColumns[0] == valueColumns[1]) {
             if(valueColumns[1] == valueColumns[2]){
                 valueColumn = valueColumns[2];
@@ -101,37 +144,38 @@ public class Main {
         else {
             valueColumn = null;
         }
-        return valueColumn;
+        return valueColumn; //Returns null if not equal, returns the value if equal
     }
 
     private static Integer checkDiagonals (String[][] squareNumbers) {
-
         Integer valueDiagonal;
-        int valueDiagonalFirst = 0;
-        int valueDiagonalSecond = 0;
+        int valueDiagonalFirst = 0; //To assign the value of the first type of diagonal
+        int valueDiagonalSecond = 0; //To assign the value of the second type of diagonal
 
+        //Iterates through each diagonal value of squareNumbers[][] and assigns the total to the valueDiagonalFirst
         for(int i=0; i<3; i++) {
             valueDiagonalFirst += Integer.parseInt(squareNumbers[i][i]);
         }
 
+        //Iterates through each diagonal value of squareNumbers[][] and assigns the total to the valueDiagonalSecond
         for (int i=0, j=2; (i<3 && j>=0) ; i++, j--){
             valueDiagonalSecond += Integer.parseInt(squareNumbers[i][j]);
         }
 
+        //Checks if the diagonal values are equal
         if(valueDiagonalFirst == valueDiagonalSecond){
             valueDiagonal = valueDiagonalFirst;
         }
         else {
             valueDiagonal = null;
         }
-
-        return valueDiagonal;
+        return valueDiagonal; //Returns null if not equal, returns the value if equal
     }
 
     private static boolean magicSquare(Integer valueRow, Integer valueColumn, Integer valueDiagonal) {
+        boolean isValid; //Sends the message to Lo Shu Square
 
-        boolean isValid;
-
+        //Checks if the values of the rows, columns and diagonals are equal and not null
         if(valueRow!=null && valueColumn!=null & valueDiagonal!=null){
             if((valueRow.equals(valueColumn)) && (valueColumn.equals(valueDiagonal))){
                 System.out.println("YEAH!!!! It is a Magic Square");
@@ -152,6 +196,7 @@ public class Main {
     private static String[] singleArray(String[][] squareNumbers){
         String[] singleSquareNumbers = new String[9];
 
+        //Iterates through squareNumbers[][] to convert it to singleSquareNumbers[] array (from multidimensional array to a single array)
         for(int x=0; x<9;) {
             for (int i=0; i<squareNumbers.length; i++){
                 for(int j=0; j<squareNumbers.length; j++) {
@@ -160,29 +205,31 @@ public class Main {
                 }
             }
         }
-        return singleSquareNumbers;
+        return singleSquareNumbers; //Returns the singleSquareNumbers[] array
     }
 
     private static boolean checkRange(String[] singleSquareNumbers) {
         int countRange = 0;
 
+        //Iterates through singleSquareNumbers[] to find any numbers out of the specified range
         for(int i=0; i<singleSquareNumbers.length; i++) {
             if(!((Integer.parseInt(singleSquareNumbers[i])>0) && (Integer.parseInt(singleSquareNumbers[i])<10))){
-                countRange++;
+                countRange++; //Increases if the number is out of the specified range
             }
         }
 
         if(countRange>0){
-            return false;
+            return false; //Returns false if at-least a number is out of the specified range
         }
         else{
-            return true;
+            return true; //Returns true if all the numbers are within the specified range
         }
     }
 
     private static boolean checkDuplicates(String[] singleSquareNumbers) {
         int countDuplicate = 0;
 
+        //Iterates through singleSquareNumbers[] to find any duplicate numbers
         for (int i=0; i<singleSquareNumbers.length; i++) {
             for (int j=i+1; j<singleSquareNumbers.length; j++) {
                 if(singleSquareNumbers[i].equals(singleSquareNumbers[j])) {
@@ -192,32 +239,30 @@ public class Main {
         }
 
         if(countDuplicate>0){
-            return false;
+            return false; //Returns false if at-least a number is duplicated
         }
         else{
-            return true;
+            return true; //Returns true if no duplicates are found
         }
     }
 
     private static void loShuSquare(boolean isValid, boolean inRange, boolean noDuplicates){
+        //Checks if magicSquare is valid with no duplicates and all the numbers are within the specified range
         if(isValid && inRange && noDuplicates){
             System.out.println("YEAH!!!! It is a Lo Shu Square also");
         }
         else {
             System.out.println("Oops!!!! Not a Lo Shu Square");
         }
-
     }
 
     private static boolean repeatAgain(boolean repeat){
-
         Scanner scanner = new Scanner(System.in);
 
+        //Iterates until user enter a valid input
         boolean isNotValid = true;
-
         while(isNotValid){
             System.out.print("\n" + "Do you wish to enter a new square? (y/n): ");
-
             String reply = scanner.nextLine();
 
             if(reply.equals("y") || reply.equals("Y")) {
@@ -234,50 +279,7 @@ public class Main {
                 System.out.println("Sorry, I can't accept that." + "\n" + "It's not a valid input!!!");
             }
         }
-
-        return repeat;
-
+        return repeat; //Return the users reply
     }
 
-    public static void main(String[] args) {
-
-        boolean repeat = false;
-
-        do {
-            //Calls the getValues method and returns the multidimensional array
-            String[][] squareNumbers = getValues();
-
-            //Calls the displaySquare method
-            displaySquare(squareNumbers);
-
-            //Calls the checkRows method
-            Integer valueRow = checkRows(squareNumbers);
-
-            //Calls the checkColumns method
-            Integer valueColumn = checkColumns(squareNumbers);
-
-            //Calls the checkDiagonals method
-            Integer valueDiagonal = checkDiagonals(squareNumbers);
-
-            //Calls the magicSquare method
-            boolean isValid = magicSquare(valueRow, valueColumn, valueDiagonal);
-
-            //Calls the singleArray method to convert the Multi Dimensional Array
-            String[] singleSquareNumbers = singleArray(squareNumbers);
-
-            //Calls the checkRange method
-            boolean inRange = checkRange(singleSquareNumbers);
-
-            //Calls the checkDuplicates method
-            boolean noDuplicates = checkDuplicates(singleSquareNumbers);
-
-            //Calls the loShuSquare method
-            loShuSquare(isValid, inRange, noDuplicates);
-
-            //Calls the repeatAgain method
-            repeat = repeatAgain(repeat);
-
-        } while (repeat);
-
-    }
 }
