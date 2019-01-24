@@ -1,5 +1,3 @@
-import java.sql.SQLOutput;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 @SuppressWarnings("Duplicates")
@@ -148,6 +146,18 @@ public class Main {
         return isValid;
     }
 
+    private static void checkRange(String[][] squareNumbers) {
+        int[] squareValues = new int[9];
+        int countRange = 0;
+
+
+    }
+
+    private static void checkDuplicates(String[][] squareNumbers) {
+        int[] squareValues = new int[9];
+        int countDuplicate = 0;
+    }
+
     private static void loShuSquare(String[][] squareNumbers, boolean isValid){
 
         int[] squareValues = new int[9];
@@ -156,30 +166,42 @@ public class Main {
 
         if(isValid){
 
+            for(int x=0; x<9; x++) {
                 int squareValue = 0;
-                for(int i=0; i<3; i++){
-                    for(int j=0; j<3; j++){
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
                         squareValue = Integer.parseInt(squareNumbers[i][j]);
-                        if(!(squareValue>0 && squareValue<10)){
+                        if (!(squareValue > 0 && squareValue < 10)) {
                             countRange++;
                         }
                     }
                 }
-//                squareValues[x] = squareValue;
+                squareValues[x] = squareValue;
+            }
 
-//            for (int i=0; i<10; i++){
-//                for (int j=i+1; j<=squareValues.length; j++){
-//                    if(squareValues[i] == squareValues[j]){
-//                        countDuplicate++;
-//                    }
-//                }
-//            }
+            for (int i=0; i<squareValues.length; i++){
+                for (int j=i+1; j<squareValues.length; j++){
+                    if(squareValues[i] == squareValues[j]){
+                        countDuplicate++;
+                    }
+                }
+            }
+
             if(countRange>0 || countDuplicate>0){
                 System.out.println("Oops!!!! Not a Lo Shu Square");
+                System.out.println("countRange: " + countRange);
+                System.out.println("countDuplicate: " + countDuplicate);
             }
+
         }
         else{
             System.out.println("Oops!!!! Not a Lo Shu Square");
+            System.out.println("countRange: " + countRange);
+            System.out.println("countDuplicate: " + countDuplicate);
+        }
+
+        for(int i: squareValues){
+            System.out.println(i);
         }
     }
 
@@ -234,6 +256,12 @@ public class Main {
 
             //Calls the magicSquare method
             boolean isValid = magicSquare(valueRow, valueColumn, valueDiagonal);
+
+            //Calls the checkRange method
+            boolean isRange = checkRange(squareNumbers);
+
+            //Calls the checkDuplicates method
+            boolean noDuplicate = checkDuplicates(squareNumbers);
 
             //Calls the loShuSquare method
             loShuSquare(squareNumbers, isValid);
