@@ -24,4 +24,5 @@ class CheckDiagonals {
         }
         return valueDiagonal; //Returns null if not equal, returns the value if equal
     }
+
 }
